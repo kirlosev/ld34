@@ -1,11 +1,12 @@
 fileFormatVersion: 2
 guid: de7efa98d599c8c4d9f2b47a1e2fcebe
-timeCreated: 1449888922
+timeCreated: 1449917314
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: player
     21300002: obstacle
+    21300004: bullet
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -70,6 +71,17 @@ TextureImporter:
         y: 240
         width: 16
         height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: bullet
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 244
+        width: 8
+        height: 8
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
