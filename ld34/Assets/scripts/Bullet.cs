@@ -12,6 +12,7 @@ public class Bullet : MonoBehaviour {
     public LayerMask 
         obstacleMask = 1 << 8;
     Character owner;
+    public float reloadingSpeed = 0.35f;
 
     protected void Start() {
         size = GetComponent<Collider2D>().bounds.extents;
@@ -19,7 +20,7 @@ public class Bullet : MonoBehaviour {
 
     public virtual void init(Vector3 pos, Vector3 dir, Character owner) {
         transform.position = pos;
-        velocity = dir * moveSpeed;
+        velocity = dir.normalized * moveSpeed;
         this.owner = owner;
     }
 
@@ -28,12 +29,15 @@ public class Bullet : MonoBehaviour {
             onHit();
         }
         if (checkDamage()) {
-            damageHit.collider.GetComponent<Character>().damage(damageValue);
+            damageHit.collider.GetComponent<Character>().Damage(damageValue);
             onHit();
         }
     }
 
     protected void Update() {
+        var angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0f, 0f, angle);
+            
         transform.position += velocity * Time.deltaTime;
     }
 
