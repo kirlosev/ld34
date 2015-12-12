@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class QuadRend : MonoBehaviour {
+public class QuadSky : MonoBehaviour {
     public Material groundMat;
     public Transform lbCorner, rtCorner;
     public bool needBoxColl = false;
     
+    MeshFilter mf;
+    MeshRenderer mr;
+    
     void Start() {
         var mesh = new Mesh();
-        var mf = gameObject.AddComponent<MeshFilter>();
+        mf = gameObject.AddComponent<MeshFilter>();
         mf.sharedMesh = mesh;
 
         var vertices = new Vector3[4];
@@ -23,10 +26,9 @@ public class QuadRend : MonoBehaviour {
 
         var uvs = new Vector2[4];
         uvs[0] = new Vector2(0, 0);
-        uvs[1] = new Vector2(0, rtCorner.position.y - lbCorner.position.y);
-        uvs[2] = new Vector2(rtCorner.position.x - lbCorner.position.x, 
-                             rtCorner.position.y - lbCorner.position.y);
-        uvs[3] = new Vector2(rtCorner.position.x - lbCorner.position.x, 0);
+        uvs[1] = new Vector2(0, 1);
+        uvs[2] = new Vector2(1, 1);
+        uvs[3] = new Vector2(1, 0);
 
         var triangles = new int[] { 0, 1, 2, 0, 2, 3 };
         mesh.vertices = vertices;
@@ -34,11 +36,16 @@ public class QuadRend : MonoBehaviour {
         mesh.uv = uvs;
         mesh.RecalculateNormals();
 
-        var mr = gameObject.AddComponent<MeshRenderer>();
+        mr = gameObject.AddComponent<MeshRenderer>();
         mr.sharedMaterial = groundMat;
         
         if (needBoxColl) {
             gameObject.AddComponent<BoxCollider2D>();
         }
+    }
+    
+    void LateUpdate() {
+        mr.material.mainTextureOffset += (Vector2.right * Mathf.Clamp(Player.inst.velocity.x, -1, 1)
+                                       + Vector2.up * Mathf.Clamp(Player.inst.velocity.y, -1, 1)) / 2 * Time.deltaTime;
     }
 }

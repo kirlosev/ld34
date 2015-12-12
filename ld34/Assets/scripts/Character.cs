@@ -10,6 +10,7 @@ public class Character : MonoBehaviour {
             return health > 0;
         }
     }
+    public int cameraValue = 1;
 
     protected Vector3 size;
 
@@ -24,6 +25,7 @@ public class Character : MonoBehaviour {
 
     public virtual void Damage(float value) {
         health -= value;
+        ColorScreen.instance.MakeColor(Color.red, 0.1f);
         if (health <= 0) {
             gameObject.SetActive(false);
         }

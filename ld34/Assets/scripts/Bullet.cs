@@ -32,6 +32,13 @@ public class Bullet : MonoBehaviour {
             damageHit.collider.GetComponent<Character>().Damage(damageValue);
             onHit();
         }
+        
+        if (transform.position.x < Level.inst.lbCorner.position.x 
+            || transform.position.x > Level.inst.rtCorner.position.x
+            || transform.position.y < Level.inst.lbCorner.position.y
+            || transform.position.y > Level.inst.rtCorner.position.y) {
+                gameObject.SetActive(false);
+            }
     }
 
     protected void Update() {
@@ -57,7 +64,10 @@ public class Bullet : MonoBehaviour {
         return damageHit;
     }
 
+    public Color hitColor;
+    
     protected virtual void onHit() {
+        ColorScreen.instance.MakeColor(hitColor, 0.01f);
         gameObject.SetActive(false);
     }
 }

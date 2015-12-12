@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: b3c04ace7d6818644b52216f7fe35576
-timeCreated: 1449945093
+timeCreated: 1449962610
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -17,6 +17,11 @@ TextureImporter:
     21300020: scrap7
     21300022: scrap8
     21300024: scrap9
+    21300026: cloud1
+    21300028: cloud2
+    21300030: cloud3
+    21300032: cloud4
+    21300034: player_bullet
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -77,9 +82,9 @@ TextureImporter:
     - name: Player_wings
       rect:
         serializedVersion: 2
-        x: 21
+        x: 20
         y: 112
-        width: 6
+        width: 7
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -202,6 +207,61 @@ TextureImporter:
         y: 96
         width: 4
         height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: cloud1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 82
+        width: 32
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: cloud2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 80
+        width: 31
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: cloud3
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 80
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: cloud4
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 88
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: player_bullet
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 115
+        width: 10
+        height: 10
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -13,6 +13,7 @@ public class BirdManager : MonoBehaviour {
     public float aboidObstacleWeight = 1f;
     public float foodWeight = 1f;
     public float dangerDistance;
+    public float neighDistance = 1.2f;
 
     void Awake() {
         instance = this;

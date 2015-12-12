@@ -7,6 +7,7 @@ public class Bird : Character {
     public float defMoveSpeed = 3f;
     public float maxMoveSpeed = 4f;
     public float viewRadius = 2f;
+    public float attackRadius;
     public Vector3 velocity;
     public float moveSpeed;
 
@@ -18,10 +19,14 @@ public class Bird : Character {
     public LayerMask playerLayer = 1 << 10;
 
     public bool infiniteSpace = false;
+    
+    bool canAttack = true;
+    public float attackReloadDur = 1;
 
     protected void Start() {
         base.Start();
-        BirdManager.instance.dangerDistance = size.x * 4f;
+        // BirdManager.instance.dangerDistance = size.x * 4f;
+        attackRadius = size.x;
         moveSpeed = defMoveSpeed + defMoveSpeed * Random.Range(0.1f, 0.4f);
         StartCoroutine(beSwarm());
     }
@@ -45,26 +50,8 @@ public class Bird : Character {
             var angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0f, 0f, angle);
         }
-/*
-        if (infiniteSpace) {
-            if (transform.position.x < Level.inst.lbCorner.position.x ||
-                transform.position.x > Level.inst.rtCorner.position.x ||
-                transform.position.y < Level.inst.lbCorner.position.y ||
-                transform.position.y > Level.inst.rtCorner.position.y) {
-                transform.position *= -1;
-                transform.position += velocity * 0.3f;
-            }
-        } else {
-            if (transform.position.x < Level.inst.lbCorner.position.x ||
-                transform.position.x > Level.inst.rtCorner.position.x) {
-                velocity.x *= -1 * BirdManager.instance.reactionSpeed * 10;
-            }
-            if (transform.position.y < Level.inst.lbCorner.position.y ||
-                transform.position.y > Level.inst.rtCorner.position.y) {
-                velocity.y *= -1 * BirdManager.instance.reactionSpeed * 10;
-            }
-        }
-*/        
+        
+        CheckPlayer(); 
     }
 
     IEnumerator beSwarm() {
@@ -92,13 +79,7 @@ public class Bird : Character {
 
                 var avoidObstacles = AvoidObstacles();
                 velocity += avoidObstacles * BirdManager.instance.reactionSpeed * Time.deltaTime;
-                yield return null;
-/*
-                var foodDirection = CheckPlayer();
-                velocity += foodDirection * BirdManager.instance.reactionSpeed * Time.deltaTime;
-                yield return null;
-*/                
-            }
+            } 
             yield return null;
         }
     }
@@ -129,7 +110,7 @@ public class Bird : Character {
                 continue;
 
             var neighDir = neighs[i].transform.position - transform.position;
-            if (neighDir.magnitude < 0.7f) {
+            if (neighDir.magnitude < BirdManager.instance.neighDistance) {
                 sumBirdDir += neighDir;
             }
         }
@@ -168,7 +149,7 @@ public class Bird : Character {
             var neighDir = obstaclesAround[i].transform.position - transform.position;
             if (neighDir.magnitude - obstaclesAround[i].bounds.extents.x < BirdManager.instance.dangerDistance) {
                 var rayObstacle = Physics2D.Raycast(transform.position, neighDir, BirdManager.instance.dangerDistance, obstacleLayer | enemyMask);
-                var reflection = -2 * Vector3.Dot(velocity, rayObstacle.normal) * (Vector3)rayObstacle.normal + velocity;
+                var reflection = 0.5f * ( -2 * Vector3.Dot(velocity, rayObstacle.normal) * (Vector3)rayObstacle.normal + velocity);
                 sumBirdDir += reflection;
             }
         }
@@ -179,24 +160,27 @@ public class Bird : Character {
         return sumBirdDir * BirdManager.instance.aboidObstacleWeight;
     }
 
-    Vector3 CheckPlayer() {
-        var foodAround = Physics2D.OverlapCircleAll(transform.position, viewRadius, playerLayer);
-        for (var i = 0; i < foodAround.Length; ++i) {
-            if (foodAround[i].gameObject == this.gameObject)
-                continue;
-
-            var foodDir = foodAround[i].transform.position - transform.position;
-            if (showDebug)
-                Debug.DrawRay(transform.position, foodDir, Color.white);
-            return foodDir * BirdManager.instance.foodWeight;
+    void CheckPlayer() {
+        var playerAround = Physics2D.OverlapCircle(transform.position, attackRadius, playerLayer);
+        if (playerAround && canAttack && Random.value > 0.9f) {
+            Player.inst.Damage(1);
+            StartCoroutine(Reload());
         }
-        return Vector3.zero;
+    }
+    
+    IEnumerator Reload() {
+        canAttack = false;
+        yield return new WaitForSeconds(attackReloadDur);
+        canAttack = true;
     }
 
     public void init(Vector3 initPos, Vector3 initDir) {
         moveSpeed = defMoveSpeed;
         transform.position = initPos;
         velocity = initDir * moveSpeed;
+        canAttack = true;
+        moveSpeed = defMoveSpeed + defMoveSpeed * Random.Range(0.1f, 0.4f);
+        StartCoroutine(beSwarm());
     }
 
     public override void Damage(float value) {
@@ -204,7 +188,7 @@ public class Bird : Character {
         if (health <= 0) {
             var scaryCircle = ObjPool.inst.getScaryCircle();
             scaryCircle.gameObject.SetActive(true);
-            scaryCircle.init(transform.position, Mathf.Clamp(Random.value * 10, 1, 1.5f));
+            scaryCircle.init(transform.position, Mathf.Clamp(Random.value * 10, 1, 2));
             
             gameObject.SetActive(false);
         }

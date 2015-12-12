@@ -1,0 +1,15 @@
+	title screen with credits
+	sounds:
++		shoot
+		hit
+		damage
+		explosion
+	explosion
++	taking damage
+	highscores
+	sprites (1 bit graphics):
+		ground
+		sky
+		clouds
+		birds
+	health drops

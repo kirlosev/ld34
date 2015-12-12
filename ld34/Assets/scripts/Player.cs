@@ -6,7 +6,7 @@ public class Player : Character {
 
     public Transform wings;
     public PlayerInput input;
-    Vector3 velocity;
+    public Vector3 velocity;
     
     public float defMoveSpeed = 4f;
     public float defRotSpeed = 4f;
@@ -28,12 +28,17 @@ public class Player : Character {
     
     public LayerMask obstacleMask = 1 << 8;
     
+    public Color damageColor;
+    
+    public AudioClip shootSound;
+    
     protected void Awake() {
         inst = this;
         character = GetComponent<Character>();
     }
 
     void Start() {
+        base.Start();
         maxMoveSpeed = defMoveSpeed * 1.32f;
         StartCoroutine(Shoot());
     }
@@ -75,6 +80,15 @@ public class Player : Character {
         if (transform.position.y < 0) {
             velocity += Vector3.up *velocity.magnitude *10* Time.deltaTime;
         }
+        if (transform.position.y > Level.inst.rtCorner.position.y) {
+            velocity += -Vector3.up *velocity.magnitude *10* Time.deltaTime;
+        }
+        if (transform.position.x < Level.inst.lbCorner.position.x) {
+            velocity += Vector3.right *velocity.magnitude *10* Time.deltaTime;
+        }
+        if (transform.position.x > Level.inst.rtCorner.position.x) {
+            velocity += -Vector3.right *velocity.magnitude *10* Time.deltaTime;
+        }
         
         Debug.DrawRay(transform.position, velocity, Color.magenta);
         if (velocity.magnitude > maxMoveSpeed)
@@ -103,14 +117,23 @@ public class Player : Character {
         while (true) {
             if (input.shoot) {
                 var bullet = ObjPool.inst.getBullet();
-                Vector3 dir = transform.right + transform.up * Random.Range(-0.2f, 0.2f);
+                Vector3 dir = transform.right + transform.up * Random.Range(-0.15f, 0.15f);
                 bullet.init(transform.position, dir, character);
                 CameraFollow.inst.Shake(0.6f, 0.1f, -dir);
                 velocity += -dir *gunForce* Time.deltaTime;
+                PlaySfx.inst.PlaySound(shootSound);
                 yield return new WaitForSeconds(bullet.reloadingSpeed);
             } else {
                 yield return null;
             }
+        }
+    }
+    
+    public override void Damage(float value) {
+        health -= value;
+        ColorScreen.instance.MakeColor(damageColor, 0.1f);
+        if (health <= 0) {
+            gameObject.SetActive(false);
         }
     }
 }
