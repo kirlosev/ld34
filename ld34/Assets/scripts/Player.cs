@@ -1,23 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(MoveController))]
 public class Player : Character {
     public static Player inst;
 
     Vector3 velocity;
     Vector3 dirInput;
     float startDirInput;
-    public float deltaAngle = 5;
+    float deltaAngle = 5;
     public float defDeltaAngle = 5;
     public float maxDeltaAngle = 20;
+
+    MoveController move;
 
     protected void Awake() {
         base.Awake();
         inst = this;
+        move = GetComponent<MoveController>();
     }
 
     protected void Start() {
         base.Start();
+        deltaAngle = defDeltaAngle; 
         velocity = Random.insideUnitCircle.normalized * moveSpeed;
     }
 
@@ -25,6 +30,20 @@ public class Player : Character {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
         Vector3 mouseDir = mousePos - transform.position;
+
+        if (move.collisions.any) {
+            Vector3 normalPerp = new Vector3(move.collisions.collInfo.normal.y, 
+                                            -move.collisions.collInfo.normal.x);
+            float normalDot = Vector3.Dot(velocity, normalPerp);
+            if (normalDot < 0) normalPerp *= -1;
+            velocity = normalPerp * moveSpeed;
+
+            if (Input.GetButtonDown("ChangeDirection")) {
+                velocity = mouseDir.normalized * moveSpeed;
+            }
+        }
+
+        /*
         if (Input.GetButtonDown("ChangeDirection")) {
             dirInput = velocity;
             startDirInput = Time.time;
@@ -41,34 +60,13 @@ public class Player : Character {
             dirInput.y = Mathf.Sin(dirAngle * Mathf.Deg2Rad);
             Debug.DrawRay(transform.position, dirInput, Color.cyan);
         }
+        */
         if (Input.GetButtonDown("Action")) {
             Bullet bullet = ObjPool.inst.getBullet();
             bullet.init(transform.position, mouseDir, character);
         }
 
-        transform.position += velocity * Time.deltaTime;
-    }
-
-    void FixedUpdate() {
-        if (checkCollision()) {
-            float deltaDist = size.x - obstacleHit.distance;
-            transform.position += (Vector3)obstacleHit.normal * deltaDist
-                               * Time.fixedDeltaTime * 10;
-
-            Vector3 normalPerp = new Vector3(obstacleHit.normal.y, 
-                                            -obstacleHit.normal.x);
-            float normalDot = Vector3.Dot(velocity, normalPerp);
-            if (normalDot < 0) normalPerp *= -1;
-            velocity = normalPerp * moveSpeed;
-        }
-    }
-
-    bool checkCollision() {
-        obstacleHit = Physics2D.Raycast(transform.position, 
-                                        velocity, 
-                                        size.x, 
-                                        obstacleMask);
-        return obstacleHit;
+        move.MoveDeltaPosition(velocity * Time.deltaTime);
     }
 }
 
