@@ -186,6 +186,7 @@ public class Bird : Character {
     public override void Damage(float value) {
         health -= value;
         if (health <= 0) {
+            Highscore.inst.AddPoint(1);
             var scaryCircle = ObjPool.inst.getScaryCircle();
             scaryCircle.gameObject.SetActive(true);
             scaryCircle.init(transform.position, Mathf.Clamp(Random.value * 10, 1, 2));

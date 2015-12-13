@@ -4,18 +4,20 @@ using System.Collections;
 public class Level : MonoBehaviour {
     public static Level inst;
     public Transform lbCorner, rtCorner;
+    public Prop prop;
     
     void Awake() {
         inst = this;
     }
     
     void Start() {
-        /*
-        for (int i = 0; i < 250; ++i) {
-            Bird b = ObjPool.inst.getBird();
-            b.init(Random.insideUnitCircle * 10, Random.insideUnitCircle.normalized);
+        var amountOfProps = 150;
+        for (int i = 0; i < amountOfProps; ++i) {
+            var posX = Random.Range(lbCorner.position.x, rtCorner.position.x);
+            var pr = Instantiate(prop, Vector3.right * posX, Quaternion.identity)
+                as Prop;
+            pr.init();
         }
-        */
     }
     
     void OnDrawGizmos() {

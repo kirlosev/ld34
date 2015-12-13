@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Wave : MonoBehaviour {
-    public int amountOfEnemies = 50;
+    public int[] amountOfEnemies;
     List<Bird> enemyCont = new List<Bird>();
-    public Transform initPos;
+    public Transform[] initPos;
     public bool isActive {
         get {
             return enemyCont.Count > 0;
@@ -13,11 +13,13 @@ public class Wave : MonoBehaviour {
     }
     
     public void init() {
-        for (var i = 0; i < amountOfEnemies; ++i) {
-            Bird b = ObjPool.inst.getBird();
-            b.init(initPos.position + (Vector3)Random.insideUnitCircle, 
-                   Random.insideUnitCircle.normalized);
-            enemyCont.Add(b); 
+        for (var j = 0; j < initPos.Length; ++j) {
+            for (var i = 0; i < amountOfEnemies[j]; ++i) {
+                Bird b = ObjPool.inst.getBird();
+                b.init(initPos[j].position + (Vector3)Random.insideUnitCircle, 
+                       Random.insideUnitCircle.normalized);
+                enemyCont.Add(b); 
+            }
         }
         StartCoroutine(checkContainer());
     }

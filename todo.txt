@@ -8,8 +8,6 @@
 +	taking damage
 	highscores
 	sprites (1 bit graphics):
-		ground
-		sky
-		clouds
-		birds
++		sky
++		birds
 	health drops

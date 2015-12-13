@@ -29,8 +29,8 @@ public class Player : Character {
     public LayerMask obstacleMask = 1 << 8;
     
     public Color damageColor;
-    
     public AudioClip shootSound;
+    public Transform scoreTransf;
     
     protected void Awake() {
         inst = this;
@@ -102,6 +102,8 @@ public class Player : Character {
             velocity += -velocity * slowDownSpeed * Time.deltaTime;
             velocity.y += gravity * Time.deltaTime;
         }
+
+        scoreTransf.position = transform.position - transform.right * 1.5f;
  /*       
         if (transform.position.x < Level.inst.lbCorner.position.x ||
             transform.position.x > Level.inst.rtCorner.position.x ||
@@ -128,10 +130,12 @@ public class Player : Character {
             }
         }
     }
-    
+
+    public AudioClip hitClip;
     public override void Damage(float value) {
         health -= value;
         ColorScreen.instance.MakeColor(damageColor, 0.1f);
+        PlaySfx.inst.PlaySound(hitClip);
         if (health <= 0) {
             gameObject.SetActive(false);
         }
