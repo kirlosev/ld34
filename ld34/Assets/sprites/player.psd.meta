@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: b3c04ace7d6818644b52216f7fe35576
-timeCreated: 1449967072
+timeCreated: 1450010067
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -32,6 +32,13 @@ TextureImporter:
     21300050: props8
     21300052: props9
     21300054: props10
+    21300056: Jet_body
+    21300058: Jet_wings
+    21300060: explosion
+    21300062: groundgun_gun
+    21300064: groundgun_base1
+    21300066: groundgun_base2
+    21300068: laser
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -384,6 +391,88 @@ TextureImporter:
         height: 13
       alignment: 7
       pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Jet_body
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 102
+        width: 16
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Jet_wings
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 96
+        width: 3
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: explosion
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -16, y: 16}
+        - {x: -16, y: -13}
+        - {x: -15, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
+    - name: groundgun_gun
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 22
+        width: 16
+        height: 6
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: groundgun_base1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 16
+        width: 32
+        height: 11
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: groundgun_base2
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 16
+        width: 25
+        height: 10
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: laser
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 118
+        width: 16
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     outline: []

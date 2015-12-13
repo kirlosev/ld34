@@ -56,6 +56,11 @@ public class Bird : Character {
 
     IEnumerator beSwarm() {
         while (true) {
+            if (!Game.inst.gameStarted) {
+                yield return null;
+                continue;
+            }
+
             Vector3 playerDir = Player.inst.transform.position - transform.position;
             velocity += playerDir * BirdManager.instance.foodWeight * Time.deltaTime;
             

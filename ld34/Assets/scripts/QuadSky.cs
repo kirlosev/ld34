@@ -45,7 +45,8 @@ public class QuadSky : MonoBehaviour {
     }
     
     void LateUpdate() {
-        mr.material.mainTextureOffset += (Vector2.right * Mathf.Clamp(Player.inst.velocity.x, -1, 1)
-                                       + Vector2.up * Mathf.Clamp(Player.inst.velocity.y, -1, 1)) / 2 * Time.deltaTime;
+        mr.material.mainTextureOffset += (Vector2.right * Mathf.Clamp(Player.inst.velocity.x/Player.inst.maxMoveSpeed, -1, 1)
+                                        + Vector2.up * Mathf.Clamp(Player.inst.velocity.y/Player.inst.maxMoveSpeed, -1, 1)) 
+                                        / 2 * Time.deltaTime;
     }
 }

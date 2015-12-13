@@ -20,6 +20,22 @@ public class ObjPool : MonoBehaviour {
         bulletCont.Add(b);
         return b;
     }
+
+    public Bullet laserInst;
+    List<Bullet> laserCont = new List<Bullet>();
+
+    public Bullet getLaser() {
+        for (int i = 0; i < laserCont.Count; ++i) {
+            if (!laserCont[i].gameObject.activeInHierarchy) {
+                laserCont[i].gameObject.SetActive(true);
+                return laserCont[i];
+            }
+        }
+        Bullet b = Instantiate(laserInst, transform.position, Quaternion.identity) 
+            as Bullet;
+        laserCont.Add(b);
+        return b;
+    }
     
     public ScaryCircle scaryCircleInst;
     List<ScaryCircle> scaryCircleCont = new List<ScaryCircle>();
@@ -66,6 +82,38 @@ public class ObjPool : MonoBehaviour {
         Scrap b = Instantiate(scrapInst, transform.position, Quaternion.identity) 
                   as Scrap;
         scrapCont.Add(b);
+        return b;
+    }
+
+    public ExplosionManager expManInst;
+    List<ExplosionManager> expManCont = new List<ExplosionManager>();
+
+    public ExplosionManager getExplosionManager() {
+        for (int i = 0; i < expManCont.Count; ++i) {
+            if (!expManCont[i].gameObject.activeInHierarchy) {
+                expManCont[i].gameObject.SetActive(true);
+                return expManCont[i];
+            }
+        }
+        ExplosionManager b = Instantiate(expManInst, transform.position, Quaternion.identity) 
+            as ExplosionManager;
+        expManCont.Add(b);
+        return b;
+    }
+
+    public Explosion expInst;
+    List<Explosion> expCont = new List<Explosion>();
+
+    public Explosion getExplosion() {
+        for (int i = 0; i < expCont.Count; ++i) {
+            if (!expCont[i].gameObject.activeInHierarchy) {
+                expCont[i].gameObject.SetActive(true);
+                return expCont[i];
+            }
+        }
+        Explosion b = Instantiate(expInst, transform.position, Quaternion.identity) 
+            as Explosion;
+        expCont.Add(b);
         return b;
     }
 

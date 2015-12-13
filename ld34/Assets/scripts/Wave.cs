@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Wave : MonoBehaviour {
+    public string waveName = "wave #1";
+
     public int[] amountOfEnemies;
     List<Bird> enemyCont = new List<Bird>();
     public Transform[] initPos;
