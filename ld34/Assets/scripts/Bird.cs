@@ -179,7 +179,8 @@ public class Bird : Character {
         canAttack = true;
     }
 
-    public void init(Vector3 initPos, Vector3 initDir) {
+    public override void init(Vector3 initPos, Vector3 initDir) {
+        health = maxHealth;
         moveSpeed = defMoveSpeed;
         transform.position = initPos;
         velocity = initDir * moveSpeed;

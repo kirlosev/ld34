@@ -131,7 +131,6 @@ public class Player : Character {
                 yield return null;
                 continue;
             }
-
             if (input.shoot) {
                 var bullet = ObjPool.inst.getBullet();
                 Vector3 dir = transform.right + transform.up * Random.Range(-0.15f, 0.15f);
@@ -158,5 +157,3 @@ public class Player : Character {
         }
     }
 }
-
-// reflection: -2 * Vector3.Dot(velocity, obstacleHit.normal) * (Vector3)obstacleHit.normal + velocity

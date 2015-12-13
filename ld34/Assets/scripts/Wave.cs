@@ -8,13 +8,8 @@ public class Wave : MonoBehaviour {
     public int[] amountOfEnemies;
     List<Bird> enemyCont = new List<Bird>();
     public Transform[] initPos;
-    public bool isActive {
-        get {
-            return enemyCont.Count > 0;
-        }
-    }
     
-    public void init() {
+    public virtual void init() {
         for (var j = 0; j < initPos.Length; ++j) {
             for (var i = 0; i < amountOfEnemies[j]; ++i) {
                 Bird b = ObjPool.inst.getBird();
@@ -25,9 +20,13 @@ public class Wave : MonoBehaviour {
         }
         StartCoroutine(checkContainer());
     }
+
+    public virtual bool isActive() {
+        return enemyCont.Count > 0;
+    }
     
     IEnumerator checkContainer() {
-        while (isActive) {
+        while (isActive()) {
             for (var i = 0; i < enemyCont.Count; ) {
                 if (!enemyCont[i].gameObject.activeInHierarchy) {
                     enemyCont.RemoveAt(i);

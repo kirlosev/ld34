@@ -68,6 +68,22 @@ public class ObjPool : MonoBehaviour {
         birdCont.Add(b);
         return b;
     }
+
+    public Jet jetInst;
+    List<Jet> jetCont = new List<Jet>();
+
+    public Jet getJet() {
+        for (int i = 0; i < jetCont.Count; ++i) {
+            if (!jetCont[i].gameObject.activeInHierarchy) {
+                jetCont[i].gameObject.SetActive(true);
+                return jetCont[i];
+            }
+        }
+        Jet b = Instantiate(jetInst, transform.position, Quaternion.identity) 
+            as Jet;
+        jetCont.Add(b);
+        return b;
+    }
     
     public Scrap scrapInst;
     List<Scrap> scrapCont = new List<Scrap>();

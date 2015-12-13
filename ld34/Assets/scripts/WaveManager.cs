@@ -33,14 +33,15 @@ public class WaveManager : MonoBehaviour {
             }
             waveNameText.gameObject.SetActive(false);
             waveQueue[currWave].init();
-            while (waveQueue[currWave].isActive) {
+            while (waveQueue[currWave].isActive()) {
                 if (currWave > 1) {
                     if (Random.value > 0.9f && jetCont.Count < 2 && prevJetWave != currWave) {
                         var fromUp = Random.value > 0.5f;
                         var fromRight = Random.value > 0.5f;
                         var pos = new Vector3(fromRight ? Level.inst.rtCorner.position.x : Level.inst.lbCorner.position.x, 
                                               fromUp ? Level.inst.rtCorner.position.y : Level.inst.lbCorner.position.y);
-                        var j = Instantiate(jetInst, pos, Quaternion.identity) as Jet;
+                        var j = ObjPool.inst.getJet();
+                        j.init(Vector3.zero, Vector3.zero);
                         jetCont.Add(j);
                     } else if (jetCont.Count >= 2) {
                         prevJetWave = currWave;
@@ -61,7 +62,6 @@ public class WaveManager : MonoBehaviour {
         while (true) {
             for (var i = 0; i < jetCont.Count; ) {
                 if (!jetCont[i].gameObject.activeInHierarchy) {
-                    Destroy(jetCont[i].gameObject);
                     jetCont.RemoveAt(i);
                 } else {
                     ++i;

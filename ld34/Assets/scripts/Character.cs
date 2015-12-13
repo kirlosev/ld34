@@ -16,10 +16,10 @@ public class Character : MonoBehaviour {
 
     protected void Start() {
         size = GetComponent<Collider2D>().bounds.extents;
-        Init();
+        health = maxHealth;
     }
 
-    public void Init() {
+    public virtual void init(Vector3 initPos, Vector3 initDir) {
         health = maxHealth;
     }
 
