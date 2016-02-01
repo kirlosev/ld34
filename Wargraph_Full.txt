@@ -1,0 +1,15 @@
+different levels' themes:
+    water level : doesn't destroy on touching the water surface
+    ground level : destroys the player on touching the ground surface
+    winter level :  
+enemies:
+    swarm
+    jet
+    helicopter
+missions:
+    destroy all of the enemies
+bosses:
+    ultrazatron
+    underground boss : moves underground and shoots the laser blast when it above the ground
+player's variations:
+        
